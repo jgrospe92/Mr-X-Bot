@@ -23,7 +23,7 @@ public class CharacterMovement : MonoBehaviour
     private float runSpeed = 8;
 
     private int maxJump = 2;
-    private bool isDoubleJumping = false;
+    public bool isDoubleJumping = false;
 
     private bool isMoving = true;
 
@@ -50,6 +50,7 @@ public class CharacterMovement : MonoBehaviour
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer)
         {
+            // to stop flip animation
             DoubleJump("stop");
             // Jumping
             if (Input.GetButtonDown("Jump"))
@@ -70,7 +71,7 @@ public class CharacterMovement : MonoBehaviour
             gravity.y += gravityValue * Time.deltaTime;
         }
 
-        if (!isDoubleJumping)
+        if (isDoubleJumping)
         {
             if (Input.GetButtonDown("Jump") && !groundedPlayer)
             {
@@ -78,7 +79,7 @@ public class CharacterMovement : MonoBehaviour
                 DoubleJump("jump");
                 ps.Play();
 
-                isDoubleJumping = true;
+                isDoubleJumping = false;
             }
         }
         
