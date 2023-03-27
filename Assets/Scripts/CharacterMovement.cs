@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
@@ -39,8 +40,9 @@ public class CharacterMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         characterSpeed = Animator.StringToHash("Character Speed");
-   
-       
+
+        HideMouseCursor();
+
     }
 
     public void Update()
@@ -48,6 +50,7 @@ public class CharacterMovement : MonoBehaviour
         // Making sure we dont have a Y velocity if we are grounded
         // controller.isGrounded tells you if a character is grounded ( IE Touches the ground)
         groundedPlayer = controller.isGrounded;
+    
         if (groundedPlayer)
         {
             // to stop flip animation
@@ -83,30 +86,29 @@ public class CharacterMovement : MonoBehaviour
             }
         }
         
+        
         if (groundedPlayer && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
         }
-      
+        Falling();
+    
 
-        // Moving the character foward according to the speed
+        //// Moving the character foward according to the speed
         float speed = GetMovementSpeed();
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         Vector3 move = new Vector3(horizontal, 0, vertical);
         Vector3 direction = move.normalized;
 
-      
-
-
         // TODO add animation SetParameters for Idle/Walk/Run
         if (Math.Abs(move.x) > 0.0f || (Math.Abs(move.z) > 0.0f))
         {
             isMoving = true;
-            
+
             if (speed == 5)
             {
-                if (velocity > 0.5f) 
+                if (velocity > 0.5f)
                 {
                     // to make sure that the animation switched back to walking after running
                     velocity -= Time.deltaTime * speed;
@@ -116,19 +118,27 @@ public class CharacterMovement : MonoBehaviour
                     // walking animation
                     velocity += Time.deltaTime * speed;
                 }
-                
+
             }
             else
             {
                 // running annimation
                 if (velocity <= 1f)
                 {
-                    
+
                     velocity += Time.deltaTime * speed;
                 }
-                
+
             }
-          
+
+        
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            controller.Move(gravity * Time.deltaTime + moveDir.normalized * speed * Time.deltaTime);
+
         }
         else
         {
@@ -145,37 +155,14 @@ public class CharacterMovement : MonoBehaviour
         {
             velocity = 0.0f;
         }
+
         animator.SetFloat(characterSpeed, velocity);
 
-        // Turning the character
-        if (move != Vector3.zero)
-        {
-            gameObject.transform.forward = move;
-        }
+    }
 
-
-        // Falling
-        Falling();
-
-        // TODO
-
-        // Since there is no physics applied on character controller we have this to reapply gravity
-        //playerVelocity.y += gravityValue * Time.deltaTime;
-        //controller.Move(playerVelocity * Time.deltaTime);
-        //if (direction.magnitude >= 0.1f)
-        //{
-        //    float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-        //    float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-        //    gameObject.transform.rotation = Quaternion.Euler(0f, angle, 0f);
-        //    //Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-
-           
-
-        //}
-  
-        playerVelocity = gravity * Time.deltaTime + move * Time.deltaTime * speed;    
-        controller.Move(playerVelocity);
-
+    void HideMouseCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     float GetMovementSpeed()

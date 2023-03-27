@@ -8,12 +8,16 @@ public class PowerUps : MonoBehaviour
     public CharacterMovement cm;
     public ParticleSystem blueParticle;
     public ParticleSystem yellowParticle;
+    private int yellowPts = 50;
+
+
+
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Blue Stone"))
         {
-            //cm.gameObject.GetComponent<CharacterMovement>().isDoubleJumping = true;
+            
             blueParticle.Play();
             cm.isDoubleJumping = true;
             Destroy(other.gameObject);
@@ -21,10 +25,18 @@ public class PowerUps : MonoBehaviour
 
         if (other.gameObject.CompareTag("Yellow Stone"))
         {
-            //cm.gameObject.GetComponent<CharacterMovement>().isDoubleJumping = true;
+       
             yellowParticle.Play();
-            //cm.isDoubleJumping = true;
+            GameManager.instance.UpdateScore(yellowPts);
+         
             Destroy(other.gameObject);
         }
+
+        if (other.gameObject.CompareTag("Death Plane"))
+        {
+            GameManager.Instance.RestartGame();
+
+        }
+
     }
 }
