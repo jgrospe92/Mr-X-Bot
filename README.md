@@ -16,7 +16,11 @@
 - wasd
 - freelook
 
-# Graphics
+# Gameplay
+https://user-images.githubusercontent.com/77903214/228390222-2aff86c7-b8dd-4a72-a190-0fe962f8723a.mp4
+
+
+
 
 # Technology
 - Unity
