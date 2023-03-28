@@ -160,6 +160,7 @@ public class CharacterMovement : MonoBehaviour
 
     }
 
+
     void HideMouseCursor()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -204,4 +205,6 @@ public class CharacterMovement : MonoBehaviour
             animator.SetBool("Falling", false);
         }
     }
+
+
 }

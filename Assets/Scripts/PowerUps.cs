@@ -32,11 +32,27 @@ public class PowerUps : MonoBehaviour
             Destroy(other.gameObject);
         }
 
-        if (other.gameObject.CompareTag("Death Plane"))
+        if (other.gameObject.tag == "Cylinder")
         {
             GameManager.Instance.RestartGame();
-
         }
 
+        if (other.gameObject.CompareTag("Finish"))
+        {
+            print("finish");
+            GameManager.Instance.NextLevel();
+        }
+
+
     }
+
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+
+    //    if (collision.gameObject.tag == "Cylinder")
+    //    {
+    //        GameManager.Instance.RestartGame();
+    //    }
+    //}
 }

@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        
+        scorePerLevel = score;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
