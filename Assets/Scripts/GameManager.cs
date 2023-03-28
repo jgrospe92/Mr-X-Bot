@@ -1,4 +1,5 @@
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     private int currentLevelIndex;
 
-    public int scorePerLevel;
+    public int scorePerLevel = 0;
     private int score = 0;
     public Text ScoreText;
 
@@ -40,11 +41,6 @@ public class GameManager : MonoBehaviour
 
   
 
-    private void OnEnable()
-    {
-        currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
-    }
-
     public void NextLevel()
     {
         scorePerLevel = score;
@@ -54,7 +50,7 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         score = scorePerLevel;
-        UpdateScore(score);
+        displayScore();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -64,6 +60,16 @@ public class GameManager : MonoBehaviour
         score += value;
         ScoreText.text = "SCORE : " + score;
        
+    }
+
+    public void displayScore()
+    {
+        ScoreText.text = "SCORE : " + score;
+    }
+
+    public int GetScore()
+    {
+        return score;
     }
 
 }

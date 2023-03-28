@@ -8,6 +8,8 @@ TagManager:
   - Yellow Stone
   - Death Plane
   - Cylinder
+  - Wall
+  - Enemy
   layers:
   - Default
   - TransparentFX

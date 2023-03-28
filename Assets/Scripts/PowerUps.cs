@@ -36,7 +36,6 @@ public class PowerUps : MonoBehaviour
 
         if (other.gameObject.CompareTag("Finish"))
         {
-            print("finish");
             GameManager.Instance.NextLevel();
         }
 
