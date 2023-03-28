@@ -32,10 +32,7 @@ public class PowerUps : MonoBehaviour
             Destroy(other.gameObject);
         }
 
-        if (other.gameObject.tag == "Cylinder")
-        {
-            GameManager.Instance.RestartGame();
-        }
+    
 
         if (other.gameObject.CompareTag("Finish"))
         {

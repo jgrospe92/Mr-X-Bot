@@ -13,6 +13,7 @@ public class CharacterMovement : MonoBehaviour
     private float gravityValue = -9.81f;
     private CharacterController controller;
     private Animator animator;
+    private Vector3 moveDir;
 
     private int characterSpeed;
 
@@ -50,7 +51,7 @@ public class CharacterMovement : MonoBehaviour
         // Making sure we dont have a Y velocity if we are grounded
         // controller.isGrounded tells you if a character is grounded ( IE Touches the ground)
         groundedPlayer = controller.isGrounded;
-    
+   
         if (groundedPlayer)
         {
             // to stop flip animation
@@ -87,10 +88,7 @@ public class CharacterMovement : MonoBehaviour
         }
         
         
-        if (groundedPlayer && playerVelocity.y < 0)
-        {
-            playerVelocity.y = 0f;
-        }
+
         Falling();
     
 
@@ -136,8 +134,8 @@ public class CharacterMovement : MonoBehaviour
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(gravity * Time.deltaTime + moveDir.normalized * speed * Time.deltaTime);
+            moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            controller.Move(moveDir.normalized * speed * Time.deltaTime);
 
         }
         else
@@ -158,6 +156,7 @@ public class CharacterMovement : MonoBehaviour
 
         animator.SetFloat(characterSpeed, velocity);
 
+        controller.Move(gravity *  Time.deltaTime);
     }
 
 

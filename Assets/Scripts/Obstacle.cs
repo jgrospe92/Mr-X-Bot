@@ -33,4 +33,12 @@ public class Obstacle : MonoBehaviour
         // Add a torque to the Rigidbody component to roll the barrel
         rb.AddTorque(torque * rollTorque);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            GameManager.Instance.RestartGame();
+        }
+    }
 }
