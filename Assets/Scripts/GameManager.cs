@@ -71,5 +71,14 @@ public class GameManager : MonoBehaviour
     {
         return score;
     }
+    public void ResetScore(int value)
+    {
+        score = value;
+        if (ScoreText)
+        {
+            ScoreText.text = "SCORE : " + score;
+        }
+      
+    }
 
 }

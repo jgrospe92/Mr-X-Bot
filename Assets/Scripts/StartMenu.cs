@@ -8,6 +8,7 @@ public class StartMenu : MonoBehaviour
    public void StartGame()
     {
         GameManager.Instance.scorePerLevel = 0;
+        GameManager.Instance.ResetScore(0);
         SceneManager.LoadScene(1);
     }
 }
